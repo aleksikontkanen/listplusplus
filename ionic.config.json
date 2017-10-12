@@ -1,5 +1,6 @@
 {
-  "name": "listplusplus",
-  "app_id": "",
-  "type": "ionic-angular"
+    "name": "listplusplus",
+    "app_id": "",
+    "type": "ionic-angular",
+    "integrations": {}
 }
