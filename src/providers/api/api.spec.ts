@@ -1,8 +1,8 @@
 import { async, TestBed, inject } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
-import { Http, Response, ResponseOptions, BaseRequestOptions, RequestMethod, ResponseType } from '@angular/http';
-import { ApiProvider } from './';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { ApiProvider } from './api';
 
 describe('Api Provider', () => {
 

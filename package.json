@@ -10,7 +10,7 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
     "test": "karma start ./test-config/karma.conf.js",
-    "test-ci": "karma start ./test-config/karma.conf.js --single-run",
+    "test-ci": "karma start ./test-config/karma.conf.js --browsers PhantomJS --single-run",
     "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./test-config/protractor.conf.js"
   },
   "dependencies": {
@@ -46,6 +46,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.5",
     "null-loader": "^0.1.1",
