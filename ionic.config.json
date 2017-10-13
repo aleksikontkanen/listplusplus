@@ -1,6 +1,8 @@
 {
-    "name": "listplusplus",
-    "app_id": "",
-    "type": "ionic-angular",
-    "integrations": {}
+  "name": "listplusplus",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }
