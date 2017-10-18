@@ -5,3 +5,7 @@ export { IStore } from './store.model';
 export { UserProvider } from './user';
 export { UserProviderMock } from './user';
 export { IUser } from './user';
+
+export { ListsProvider } from './lists';
+export { ListsProviderMock } from './lists';
+export { IList, IListItem } from './lists';

@@ -3,6 +3,17 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { ApiProvider } from './api';
+import { ApiMockData } from './api.mock';
+
+const createResponse = (body: Object): Response => {
+    return new Response(
+        new ResponseOptions(
+            {
+                body: JSON.stringify(body)
+            }
+        )
+    );
+};
 
 describe('Api Provider', () => {
 
@@ -29,14 +40,36 @@ describe('Api Provider', () => {
 
     it('should create get request on getUserInfo call', async(inject(
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
-            const mockResponse = {};
-
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
-                connection.mockRespond(new Response(new ResponseOptions({ body: JSON.stringify(mockResponse) })));
+                connection.mockRespond(createResponse(ApiMockData.user));
             });
 
             api.getUserInfo().subscribe(userInfo => {
-                expect(userInfo).toEqual(userInfo);
+                expect(userInfo).toEqual(ApiMockData.user);
+            })
+        })
+    ));
+
+    it('should create get request on getUserLists call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse(ApiMockData.lists));
+            });
+
+            api.getUserLists(ApiMockData.user.id).subscribe(lists => {
+                expect(lists).toEqual(ApiMockData.lists);
+            })
+        })
+    ));
+
+    it('should create get request on getListItems call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse(ApiMockData.lists[0].list_items));
+            });
+
+            api.getListItems(ApiMockData.user.id).subscribe(listItems => {
+                expect(listItems).toEqual(ApiMockData.lists[0].list_items);
             })
         })
     ));

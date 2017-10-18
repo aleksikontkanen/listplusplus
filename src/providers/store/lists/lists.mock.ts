@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IStore } from './../store.model';
-import { IUser } from './user.model'; /* tslint:disable-line */
+import { IList } from './lists.model'; /* tslint:disable-line */
 
 @Injectable()
-export class UserProviderMock implements IStore {
+export class ListsProviderMock implements IStore {
 
     constructor() { }
 
@@ -12,8 +12,8 @@ export class UserProviderMock implements IStore {
         // Stub
     }
 
-    public getUserInfo(): Observable<IUser> {
-        return Observable.of(null);
+    public getUserLists(): Observable<Array<IList>> {
+        return Observable.of([]);
     }
 
 }
