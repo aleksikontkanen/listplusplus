@@ -4,13 +4,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StoreProvider } from './../providers/store';
 
-import { TabsPage } from '../pages/tabs/tabs';
+import { RootPage } from '../pages/root/root';
 
 @Component({
     templateUrl: 'app.html'
 })
 export class MyApp implements OnInit {
-    rootPage: {} = TabsPage;
+    rootPage: {} = RootPage;
 
     constructor(
         private platform: Platform,

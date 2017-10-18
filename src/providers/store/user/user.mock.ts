@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiMockData } from './../../api';
 import { IStore } from './../store.model';
 import { IUser } from './user.model'; /* tslint:disable-line */
 
@@ -13,7 +14,7 @@ export class UserProviderMock implements IStore {
     }
 
     public getUserInfo(): Observable<IUser> {
-        return Observable.of(null);
+        return Observable.of(ApiMockData.user);
     }
 
 }

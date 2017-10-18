@@ -1,0 +1,14 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Lists</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="userLists">
+        <ion-item *ngFor="let userList of userLists;">
+            <ion-icon name="list" item-start></ion-icon>
+            {{ userList.name }}
+        </ion-item>
+    </ion-list>
+</ion-content>
