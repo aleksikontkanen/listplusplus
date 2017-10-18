@@ -7,6 +7,7 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
 
         files: [
+            '../node_modules/url-search-params/build/url-search-params.js',
             { pattern: './karma-test-shim.js', watched: true }
         ],
 
@@ -35,7 +36,7 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
         singleRun: false
     };
 

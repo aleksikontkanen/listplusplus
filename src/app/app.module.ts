@@ -13,7 +13,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ApiProvider } from '../providers/api';
-import { StoreProvider, UserProvider } from '../providers/store';
+import { StoreProvider, UserProvider, ListsProvider } from '../providers/store';
+
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import { StoreProvider, UserProvider } from '../providers/store';
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         ApiProvider,
         StoreProvider,
+        ListsProvider,
         UserProvider
     ]
 })

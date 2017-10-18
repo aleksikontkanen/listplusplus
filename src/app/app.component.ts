@@ -28,7 +28,5 @@ export class MyApp implements OnInit {
 
     public ngOnInit(): void {
         this.store.initializeStore();
-        console.log('init');
-        this.store.user.getUserInfo().subscribe(s => console.log('store', s));
     }
 }
