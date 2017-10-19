@@ -1,14 +1,17 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Lists</ion-title>
+        <ion-title>List++</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list *ngIf="userLists">
-        <ion-item *ngFor="let userList of userLists;">
+        <ion-list-header>
+            Lists
+        </ion-list-header>
+        <a ion-item *ngFor="let userList of userLists;" (click)="openListModal(userList)">
             <ion-icon name="list" item-start></ion-icon>
             {{ userList.name }}
-        </ion-item>
+        </a>
     </ion-list>
 </ion-content>

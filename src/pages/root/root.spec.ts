@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { ModalController } from 'ionic-angular';
 import { RootPage } from './root';
 
 import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../../providers/store';
@@ -20,6 +21,7 @@ describe('Rootpage', () => {
             ],
             providers: [
                 { provide: StoreProvider, useClass: StoreProviderMock },
+                { provide: ModalController, useValue: null },
                 UserProviderMock,
                 ListsProviderMock
             ]

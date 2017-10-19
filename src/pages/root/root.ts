@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StoreProvider, IList } from './../../providers/store';
+import { ModalController } from 'ionic-angular';
+import { ListModal } from './../list-modal/list-modal';
 
 @Component({
     selector: 'root-page',
     templateUrl: 'root.html'
 })
-export class RootPage implements OnInit {
+export class RootPage {
 
     public userLists: Array<IList>;
 
     constructor(
-        private store: StoreProvider
+        private store: StoreProvider,
+        private modalController: ModalController
     ) { }
 
     public ngOnInit(): void {
@@ -21,5 +24,10 @@ export class RootPage implements OnInit {
             // TODO: Create error handling and notifications
 
         });
+    }
+
+    public openListModal(listData: IList): void {
+        const modal = this.modalController.create(ListModal, { listData });
+        modal.present();
     }
 }
