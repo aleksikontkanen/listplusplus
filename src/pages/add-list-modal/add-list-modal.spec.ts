@@ -1,7 +1,8 @@
 import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
 import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
 import { NavParams, ViewController } from 'ionic-angular';
-import { ListModal } from './list-modal';
+import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../../providers/store';
+import { AddListModal } from './add-list-modal';
 
 @Injectable()
 class NavParamsMock {
@@ -10,14 +11,15 @@ class NavParamsMock {
     }
 }
 
+@Injectable()
 class ViewControllerMock {
     public dismiss(): void { }
 }
 
-describe('ListModal', () => {
+describe('AddListModal', () => {
 
-    let fixture: ComponentFixture<ListModal>;
-    let component: ListModal;
+    let fixture: ComponentFixture<AddListModal>;
+    let component: AddListModal;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -25,15 +27,18 @@ describe('ListModal', () => {
                 NO_ERRORS_SCHEMA
             ],
             declarations: [
-                ListModal
+                AddListModal
             ],
             providers: [
+                UserProviderMock,
+                ListsProviderMock,
+                { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: NavParams, useClass: NavParamsMock },
                 { provide: ViewController, useClass: ViewControllerMock }
             ]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ListModal);
+        fixture = TestBed.createComponent(AddListModal);
         component = fixture.componentInstance;
     }));
 

@@ -29,4 +29,10 @@ export class ListsProvider implements IStore {
         return this.lists.asObservable();
     }
 
+    public async addUserList(listName: string): Promise<void> {
+        await this.api.createList(listName).subscribe(addedList => {
+            this.lists.first().subscribe(lists => this.lists.next([...lists, addedList]));
+        });
+    }
+
 }

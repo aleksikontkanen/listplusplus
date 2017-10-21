@@ -67,6 +67,20 @@ export class ApiProvider {
             .map(response => response.json());
     }
 
+    public createList(listName: string): Observable<ITaskList> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Post,
+            body: {
+                "name": listName,
+                "list_items": []
+            }
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.taskLists, options)
+            .map(response => response.json());
+    }
+
     private createHttpRequest(url: string, options: RequestOptionsArgs = {}): Observable<Response> {
 
         const headers = new Headers({
@@ -74,7 +88,7 @@ export class ApiProvider {
         })
 
         if (this.authenticationToken) {
-            headers.append('token', this.authenticationToken);
+            headers.append('Authorization', 'Token ' + this.authenticationToken);
         }
 
         const defaultOptions: RequestOptionsArgs = {

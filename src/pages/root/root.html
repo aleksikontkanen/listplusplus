@@ -14,4 +14,10 @@
             {{ userList.name }}
         </a>
     </ion-list>
+
+    <ion-fab right bottom>
+        <button (click)="openAddListModal()" ion-fab color="light">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>
