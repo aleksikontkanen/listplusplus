@@ -4,6 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { ApiProvider } from './api';
 import { ApiMockData } from './api.mock';
+import { IList } from './../store'; /* tslint:disable-line */
 
 const createResponse = (body: Object): Response => {
     return new Response(
@@ -70,6 +71,25 @@ describe('Api Provider', () => {
 
             api.getListItems(ApiMockData.user.id).subscribe(listItems => {
                 expect(listItems).toEqual(ApiMockData.lists[0].list_items);
+            })
+        })
+    ));
+
+    it('should create post request on createList call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+
+            const newName: string = 'New list';
+            const newList = {
+                name: newName
+            } as IList;
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse(newList));
+            });
+
+
+            api.createList(newName).subscribe(list => {
+                expect(list.name).toEqual(newName);
             })
         })
     ));

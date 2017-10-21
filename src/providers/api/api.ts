@@ -67,6 +67,19 @@ export class ApiProvider {
             .map(response => response.json());
     }
 
+    public createList(listName: string): Observable<ITaskList> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Post,
+            body: {
+                "name": listName
+            }
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.taskLists, options)
+            .map(response => response.json());
+    }
+
     private createHttpRequest(url: string, options: RequestOptionsArgs = {}): Observable<Response> {
 
         const headers = new Headers({
