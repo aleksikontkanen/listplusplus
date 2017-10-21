@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiMockData } from './../../api';
 import { IStore } from './../store.model';
-import { IList } from './lists.model'; /* tslint:disable-line */
+import { ITaskList } from './lists.model'; /* tslint:disable-line */
 
 @Injectable()
 export class ListsProviderMock implements IStore {
@@ -13,7 +13,7 @@ export class ListsProviderMock implements IStore {
         // Stub
     }
 
-    public getUserLists(): Observable<Array<IList>> {
+    public getUserLists(): Observable<Array<ITaskList>> {
         return Observable.of(ApiMockData.lists);
     }
 

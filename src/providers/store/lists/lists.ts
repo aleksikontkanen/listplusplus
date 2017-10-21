@@ -4,12 +4,12 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { ApiProvider } from './../../api';
 import { UserProvider } from './../user';
 import { IStore } from './../store.model';
-import { IList } from './lists.model'; /* tslint:disable-line */
+import { ITaskList } from './lists.model'; /* tslint:disable-line */
 
 @Injectable()
 export class ListsProvider implements IStore {
 
-    private lists: ReplaySubject<Array<IList>> = new ReplaySubject(1);
+    private lists: ReplaySubject<Array<ITaskList>> = new ReplaySubject(1);
 
     constructor(
         private api: ApiProvider,
@@ -25,7 +25,7 @@ export class ListsProvider implements IStore {
             error => this.lists.error(error));
     }
 
-    public getUserLists(): Observable<Array<IList>> {
+    public getUserLists(): Observable<Array<ITaskList>> {
         return this.lists.asObservable();
     }
 

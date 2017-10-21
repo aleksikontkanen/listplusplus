@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StoreProvider, IList } from './../../providers/store';
+import { StoreProvider, ITaskList } from './../../providers/store';
 import { ModalController } from 'ionic-angular';
 import { ListModal } from './../list-modal/list-modal';
 
@@ -9,7 +9,7 @@ import { ListModal } from './../list-modal/list-modal';
 })
 export class RootPage {
 
-    public userLists: Array<IList>;
+    public userLists: Array<ITaskList>;
 
     constructor(
         private store: StoreProvider,
@@ -26,7 +26,7 @@ export class RootPage {
         });
     }
 
-    public openListModal(listData: IList): void {
+    public openListModal(listData: ITaskList): void {
         const modal = this.modalController.create(ListModal, { listData });
         modal.present();
     }

@@ -1,23 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs } from '@angular/http';
+import { Http, RequestOptionsArgs, Response, Headers, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs';
-import { IUser, IList, IListItem } from './../store'; /* tslint:disable-line */
+import { IUser, ITaskList, IListItem } from './../store'; /* tslint:disable-line */
 
 import * as ApiConfig from './../../api.config.local';
 
 @Injectable()
 export class ApiProvider {
 
+    private authenticationToken: string;
+
     constructor(
         private http: Http
-    ) { }
+    ) {
+        // Authenticate automatically for now
+        this.getAuthenticationToken(
+            ApiConfig.credentials.username,
+            ApiConfig.credentials.password)
+            .subscribe(authenticationInfo => {
+                this.authenticationToken = authenticationInfo.token;
+            });
+    }
+
+    public getAuthenticationToken(username: string, password: string): Observable<{ token: string }> {
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Post,
+            body: {
+                username,
+                password
+            }
+        }
+
+        return this.createHttpRequest(ApiConfig.endpoints.authentication, options)
+            .map(response => response.json())
+
+    }
 
     public getUserInfo(): Observable<IUser> {
-        return this.http.get(ApiConfig.endpoints.users + '1/') // Hardcoded for now
+        return this.createHttpRequest(ApiConfig.endpoints.users + '1/') // Hardcoded for now
             .map(response => response.json());
     }
 
-    public getUserLists(userId: number): Observable<Array<IList>> {
+    public getUserLists(userId: number): Observable<Array<ITaskList>> {
 
         const queryParameters = new URLSearchParams();
         queryParameters.append('userId', userId.toString());
@@ -26,7 +50,7 @@ export class ApiProvider {
             search: queryParameters
         };
 
-        return this.http.get(ApiConfig.endpoints.lists, options)
+        return this.createHttpRequest(ApiConfig.endpoints.taskLists, options)
             .map(response => response.json());
     }
 
@@ -39,8 +63,27 @@ export class ApiProvider {
             search: queryParameters
         };
 
-        return this.http.get(ApiConfig.endpoints.listItems, options)
+        return this.createHttpRequest(ApiConfig.endpoints.listItems, options)
             .map(response => response.json());
+    }
+
+    private createHttpRequest(url: string, options: RequestOptionsArgs = {}): Observable<Response> {
+
+        const headers = new Headers({
+            'Content-Type': 'application/json'
+        })
+
+        if (this.authenticationToken) {
+            headers.append('token', this.authenticationToken);
+        }
+
+        const defaultOptions: RequestOptionsArgs = {
+            headers
+        };
+
+        const aggregateOptions = Object.assign({}, defaultOptions, options);
+
+        return this.http.request(url, aggregateOptions);
     }
 
 }
