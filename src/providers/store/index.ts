@@ -8,4 +8,4 @@ export { IUser } from './user';
 
 export { ListsProvider } from './lists';
 export { ListsProviderMock } from './lists';
-export { IList, IListItem } from './lists';
+export { ITaskList, IListItem } from './lists';

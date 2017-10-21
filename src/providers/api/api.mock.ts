@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IUser, IList, IListItem } from './../store'; /* tslint:disable-line */
+import { IUser, ITaskList, IListItem } from './../store'; /* tslint:disable-line */
 
 export interface IApiMockData {
     user: IUser,
-    lists: Array<IList>
+    lists: Array<ITaskList>
 };
 
 export const ApiMockData: IApiMockData = {
@@ -49,7 +49,7 @@ export class ApiProviderMock {
         return Observable.of(ApiMockData.user);
     }
 
-    public getUserLists(userId: number): Observable<Array<IList>> {
+    public getUserLists(userId: number): Observable<Array<ITaskList>> {
         return Observable.of(ApiMockData.lists);
     }
 

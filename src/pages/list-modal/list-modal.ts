@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
-import { IList } from './../../providers/store';
+import { ITaskList } from './../../providers/store';
 
 @Component({
     selector: 'list-modal',
@@ -8,7 +8,7 @@ import { IList } from './../../providers/store';
 })
 export class ListModal implements OnInit {
 
-    public listData: IList;
+    public listData: ITaskList;
 
     constructor(
         private navigationParameters: NavParams,

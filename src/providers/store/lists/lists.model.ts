@@ -1,4 +1,4 @@
-export interface IList {
+export interface ITaskList {
     id: number,
     name: string,
     users: Array<number>,
