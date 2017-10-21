@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { Platform, NavParams, ViewController } from 'ionic-angular';
+import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
+import { NavParams, ViewController } from 'ionic-angular';
+import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../../providers/store';
 import { AddListModal } from './add-list-modal';
 
 @Injectable()
@@ -10,7 +11,12 @@ class NavParamsMock {
     }
 }
 
-describe('ListModal', () => {
+@Injectable()
+class ViewControllerMock {
+    public dismiss(): void { }
+}
+
+describe('AddListModal', () => {
 
     let fixture: ComponentFixture<AddListModal>;
     let component: AddListModal;
@@ -24,9 +30,11 @@ describe('ListModal', () => {
                 AddListModal
             ],
             providers: [
-                { provide: Platform, useValue: null },
+                UserProviderMock,
+                ListsProviderMock,
+                { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: NavParams, useClass: NavParamsMock },
-                { provide: ViewController, useValue: null }
+                { provide: ViewController, useClass: ViewControllerMock }
             ]
         }).compileComponents();
 
@@ -34,9 +42,19 @@ describe('ListModal', () => {
         component = fixture.componentInstance;
     }));
 
-    it('should create the page', () => {
+    it('should create the modal', () => {
         fixture.detectChanges();
         expect(component).toBeTruthy();
     });
+
+    it('should dismiss the modal', async(inject([ViewController], (viewController: ViewControllerMock) => {
+        const viewControllerSpy = spyOn(viewController, 'dismiss').and.callThrough();
+
+        fixture.detectChanges();
+
+        component.dismiss();
+
+        expect(viewControllerSpy.calls.count()).toBe(1);
+    })));
 
 });

@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { Platform, NavParams, ViewController } from 'ionic-angular';
+import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
+import { NavParams, ViewController } from 'ionic-angular';
 import { ListModal } from './list-modal';
 
 @Injectable()
@@ -8,6 +8,10 @@ class NavParamsMock {
     public get(query: string): Object {
         return {};
     }
+}
+
+class ViewControllerMock {
+    public dismiss(): void { }
 }
 
 describe('ListModal', () => {
@@ -24,9 +28,8 @@ describe('ListModal', () => {
                 ListModal
             ],
             providers: [
-                { provide: Platform, useValue: null },
                 { provide: NavParams, useClass: NavParamsMock },
-                { provide: ViewController, useValue: null }
+                { provide: ViewController, useClass: ViewControllerMock }
             ]
         }).compileComponents();
 
@@ -34,9 +37,19 @@ describe('ListModal', () => {
         component = fixture.componentInstance;
     }));
 
-    it('should create the page', () => {
+    it('should create the modal', () => {
         fixture.detectChanges();
         expect(component).toBeTruthy();
     });
+
+    it('should dismiss the modal', async(inject([ViewController], (viewController: ViewControllerMock) => {
+        const viewControllerSpy = spyOn(viewController, 'dismiss').and.callThrough();
+
+        fixture.detectChanges();
+
+        component.dismiss();
+
+        expect(viewControllerSpy.calls.count()).toBe(1);
+    })));
 
 });

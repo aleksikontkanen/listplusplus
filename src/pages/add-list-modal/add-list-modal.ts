@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
-import { StoreProvider, IList } from './../../providers/store';
+import { StoreProvider, ITaskList } from './../../providers/store';
 
 @Component({
     selector: 'add-list-modal',
@@ -8,7 +8,7 @@ import { StoreProvider, IList } from './../../providers/store';
 })
 export class AddListModal implements OnInit {
 
-    public listData: IList;
+    public listData: ITaskList;
 
     constructor(
         private navigationParameters: NavParams,
@@ -25,7 +25,6 @@ export class AddListModal implements OnInit {
     }
 
     public saveList(listName: string): void {
-        console.log(listName);
         if (listName) {
             this.store.lists.addUserList(listName).then(() => {
                 this.dismiss();

@@ -4,7 +4,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { ApiProvider } from './api';
 import { ApiMockData } from './api.mock';
-import { IList } from './../store'; /* tslint:disable-line */
+import { ITaskList } from './../store'; /* tslint:disable-line */
 
 const createResponse = (body: Object): Response => {
     return new Response(
@@ -81,7 +81,7 @@ describe('Api Provider', () => {
             const newName: string = 'New list';
             const newList = {
                 name: newName
-            } as IList;
+            } as ITaskList;
 
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
                 connection.mockRespond(createResponse(newList));

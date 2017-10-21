@@ -72,7 +72,8 @@ export class ApiProvider {
         const options: RequestOptionsArgs = {
             method: RequestMethod.Post,
             body: {
-                "name": listName
+                "name": listName,
+                "list_items": []
             }
         };
 
@@ -87,7 +88,7 @@ export class ApiProvider {
         })
 
         if (this.authenticationToken) {
-            headers.append('token', this.authenticationToken);
+            headers.append('Authorization', 'Token ' + this.authenticationToken);
         }
 
         const defaultOptions: RequestOptionsArgs = {
