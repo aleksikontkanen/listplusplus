@@ -1,7 +1,8 @@
 import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
 import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
-import { NavParams, ViewController, ModalController } from 'ionic-angular';
-import { ListModal } from './list-modal';
+import { NavParams, ViewController } from 'ionic-angular';
+import { StoreProvider, StoreProviderMock } from './../../providers/store';
+import { AddListItemModal } from './add-list-item-modal';
 
 @Injectable()
 class NavParamsMock {
@@ -10,14 +11,15 @@ class NavParamsMock {
     }
 }
 
+@Injectable()
 class ViewControllerMock {
     public dismiss(): void { }
 }
 
-describe('ListModal', () => {
+describe('AddListItemModal', () => {
 
-    let fixture: ComponentFixture<ListModal>;
-    let component: ListModal;
+    let fixture: ComponentFixture<AddListItemModal>;
+    let component: AddListItemModal;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -25,16 +27,16 @@ describe('ListModal', () => {
                 NO_ERRORS_SCHEMA
             ],
             declarations: [
-                ListModal
+                AddListItemModal
             ],
             providers: [
+                { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: NavParams, useClass: NavParamsMock },
-                { provide: ViewController, useClass: ViewControllerMock },
-                { provide: ModalController, useValue: null }
+                { provide: ViewController, useClass: ViewControllerMock }
             ]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ListModal);
+        fixture = TestBed.createComponent(AddListItemModal);
         component = fixture.componentInstance;
     }));
 

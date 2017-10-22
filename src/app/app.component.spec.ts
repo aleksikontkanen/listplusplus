@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyApp } from './app.component';
 import { PlatformMock } from '../../test-config/mocks-ionic';
 
-import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../providers/store';
+import { StoreProvider, StoreProviderMock } from './../providers/store';
 
 describe('MyApp Component', () => {
     let fixture;
@@ -23,9 +23,7 @@ describe('MyApp Component', () => {
                 StatusBar,
                 SplashScreen,
                 { provide: Platform, useClass: PlatformMock },
-                { provide: StoreProvider, useClass: StoreProviderMock },
-                UserProviderMock,
-                ListsProviderMock
+                { provide: StoreProvider, useClass: StoreProviderMock }
             ]
         })
     }));
@@ -36,6 +34,7 @@ describe('MyApp Component', () => {
     });
 
     it('should be created', () => {
+        spyOn(console, 'warn').and.stub(); // Supress warnings about not running in actual or emulated device
         expect(component instanceof MyApp).toBe(true);
     });
 });

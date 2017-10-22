@@ -17,4 +17,12 @@ export class ListsProviderMock implements IStore {
         return Observable.of(ApiMockData.lists);
     }
 
+    public addUserList(): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public addListItem(): Promise<void> {
+        return Promise.resolve();
+    }
+
 }

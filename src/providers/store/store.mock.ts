@@ -5,11 +5,8 @@ import { ListsProviderMock } from './lists';
 @Injectable()
 export class StoreProviderMock {
 
-    constructor(
-        public user: UserProviderMock,
-        public lists: ListsProviderMock
-    ) { }
-
+    public user: UserProviderMock = new UserProviderMock;
+    public lists: ListsProviderMock = new ListsProviderMock;
 
     public initializeStore(): void {
         // Stub

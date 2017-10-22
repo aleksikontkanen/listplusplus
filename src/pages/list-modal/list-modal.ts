@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 import { ITaskList } from './../../providers/store';
+import { AddListItemModal } from './../add-list-item-modal/add-list-item-modal';
 
 @Component({
     selector: 'list-modal',
@@ -11,6 +13,7 @@ export class ListModal implements OnInit {
     public listData: ITaskList;
 
     constructor(
+        private modalController: ModalController,
         private navigationParameters: NavParams,
         private viewController: ViewController
     ) { }
@@ -21,5 +24,10 @@ export class ListModal implements OnInit {
 
     public dismiss(): void {
         this.viewController.dismiss();
+    }
+
+    public openAddListItemModal(listData: ITaskList): void {
+        const modal = this.modalController.create(AddListItemModal, { listData });
+        modal.present();
     }
 }

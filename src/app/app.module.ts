@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { RootPage } from '../pages/root/root';
 import { ListModal } from '../pages/list-modal/list-modal';
 import { AddListModal } from '../pages/add-list-modal/add-list-modal';
+import { AddListItemModal } from '../pages/add-list-item-modal/add-list-item-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,7 +21,8 @@ import { StoreProvider, UserProvider, ListsProvider } from '../providers/store';
         MyApp,
         RootPage,
         ListModal,
-        AddListModal
+        AddListModal,
+        AddListItemModal
     ],
     imports: [
         BrowserModule,
@@ -32,7 +34,8 @@ import { StoreProvider, UserProvider, ListsProvider } from '../providers/store';
         MyApp,
         RootPage,
         ListModal,
-        AddListModal
+        AddListModal,
+        AddListItemModal
     ],
     providers: [
         StatusBar,

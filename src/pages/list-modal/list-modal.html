@@ -28,5 +28,16 @@
             {{ item.state }}
             </ion-note>
         </ion-item>
+        <ion-item *ngIf="listData.list_items <= 0">
+            <ion-note item-start>
+            Wow, such empty
+            </ion-note>
+        </ion-item>
     </ion-list>
+
+    <ion-fab right bottom>
+        <button (click)="openAddListItemModal(listData)" ion-fab color="light">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>
