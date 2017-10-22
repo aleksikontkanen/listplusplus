@@ -45,6 +45,10 @@ export const ApiMockData: IApiMockData = {
 @Injectable()
 export class ApiProviderMock {
 
+    public getAuthenticationToken(username: string, password: string): Observable<{ token: string }> {
+        return Observable.of({ token: '1234abcd' });
+    }
+
     public getUserInfo(): Observable<IUser> {
         return Observable.of(ApiMockData.user);
     }
@@ -55,6 +59,14 @@ export class ApiProviderMock {
 
     public getListItems(listId: number): Observable<Array<IListItem>> {
         return Observable.of(ApiMockData.lists[0].list_items);
+    }
+
+    public createList(listName: string): Observable<ITaskList> {
+        return Observable.of(ApiMockData.lists[0]);
+    }
+
+    public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {
+        return Observable.of(ApiMockData.lists[0].list_items[0]);
     }
 
 }

@@ -3,7 +3,7 @@ import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { ModalController } from 'ionic-angular';
 import { RootPage } from './root';
 
-import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../../providers/store';
+import { StoreProvider, StoreProviderMock } from './../../providers/store';
 import { ApiMockData } from './../../providers/api';
 
 describe('Rootpage', () => {
@@ -21,9 +21,7 @@ describe('Rootpage', () => {
             ],
             providers: [
                 { provide: StoreProvider, useClass: StoreProviderMock },
-                { provide: ModalController, useValue: null },
-                UserProviderMock,
-                ListsProviderMock
+                { provide: ModalController, useValue: null }
             ]
         }).compileComponents();
 

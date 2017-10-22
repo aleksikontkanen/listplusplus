@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ApiProvider } from './../../api';
 import { UserProvider } from './../user';
@@ -9,7 +9,7 @@ import { ITaskList } from './lists.model'; /* tslint:disable-line */
 @Injectable()
 export class ListsProvider implements IStore {
 
-    private lists: ReplaySubject<Array<ITaskList>> = new ReplaySubject(1);
+    private lists: BehaviorSubject<Array<ITaskList>> = new BehaviorSubject([]);
 
     constructor(
         private api: ApiProvider,
@@ -32,6 +32,19 @@ export class ListsProvider implements IStore {
     public async addUserList(listName: string): Promise<void> {
         await this.api.createList(listName).subscribe(addedList => {
             this.lists.first().subscribe(lists => this.lists.next([...lists, addedList]));
+        });
+    }
+
+    public async addListItem(itemName: string, taskList: ITaskList): Promise<void> {
+        await this.api.createListItem(itemName, taskList).subscribe(addedItem => {
+            this.lists.first().subscribe(lists => {
+                try {
+                    lists.find(list => list.id === taskList.id).list_items.push(addedItem);
+                    this.lists.next(lists);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
         });
     }
 

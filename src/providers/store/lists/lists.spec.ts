@@ -1,8 +1,10 @@
 import { async, TestBed, inject } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 
 import { ApiProvider, ApiProviderMock, ApiMockData } from './../../api';
 import { UserProvider, UserProviderMock } from './../user';
 import { ListsProvider } from './lists';
+import { ITaskList, IListItem } from './lists.model';
 
 describe('List Provider', () => {
 
@@ -32,10 +34,51 @@ describe('List Provider', () => {
 
     it('should get current lists', async(inject(
         [ListsProvider], (lists: ListsProvider) => {
-            lists.getUserLists().subscribe(userLists => {
-                expect(userLists).toEqual(ApiMockData.lists);
+            lists.initialize().then(() => {
+                lists.getUserLists().subscribe(userLists => {
+                    expect(userLists).toEqual(ApiMockData.lists);
+                });
             });
+        })
+    ));
 
+    it('should add new list', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const newListName: string = 'New list';
+            const newList: ITaskList = {
+                id: 1,
+                name: newListName,
+            } as ITaskList;
+
+            spyOn(api, 'createList').and.returnValue(Observable.of(newList));
+
+            lists.initialize().then(() => {
+                lists.addUserList(newListName).then(() => {
+                    lists.getUserLists().first().subscribe(userLists => {
+                        expect(userLists.pop()).toEqual(newList);
+                    });
+                });
+            });
+        })
+    ));
+
+    it('should add new list item to existing list', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const newListItemName: string = 'New list item';
+            const newListItem: IListItem = {
+                id: 1,
+                name: newListItemName,
+            } as IListItem;
+
+            spyOn(api, 'createListItem').and.returnValue(Observable.of(newListItem));
+
+            lists.initialize().then(() => {
+                lists.addListItem(newListItemName, ApiMockData.lists[0]).then(() => {
+                    lists.getUserLists().first().subscribe(userLists => {
+                        expect(userLists[0].list_items.pop()).toEqual(newListItem);
+                    });
+                });
+            });
         })
     ));
 

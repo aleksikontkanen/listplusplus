@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
 import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
 import { NavParams, ViewController } from 'ionic-angular';
-import { StoreProvider, StoreProviderMock, UserProviderMock, ListsProviderMock } from './../../providers/store';
+import { StoreProvider, StoreProviderMock } from './../../providers/store';
 import { AddListModal } from './add-list-modal';
 
 @Injectable()
@@ -30,8 +30,6 @@ describe('AddListModal', () => {
                 AddListModal
             ],
             providers: [
-                UserProviderMock,
-                ListsProviderMock,
                 { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: NavParams, useClass: NavParamsMock },
                 { provide: ViewController, useClass: ViewControllerMock }
