@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IUser, ITaskList, IListItem } from './../store'; /* tslint:disable-line */
+import { IUser, ITaskList, IListItem, ListItemState } from './../store'; /* tslint:disable-line */
 
 export interface IApiMockData {
     user: IUser,
@@ -66,6 +66,10 @@ export class ApiProviderMock {
     }
 
     public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {
+        return Observable.of(ApiMockData.lists[0].list_items[0]);
+    }
+
+    public changeListItemState(listItem: IListItem, state: ListItemState): Observable<IListItem> {
         return Observable.of(ApiMockData.lists[0].list_items[0]);
     }
 

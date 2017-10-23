@@ -23,10 +23,12 @@
         </ion-item>
 
         <ion-item *ngFor="let item of listData.list_items">
-            {{ item.name }}
-            <ion-note item-end>
-            {{ item.state }}
-            </ion-note>
+            <ion-label>{{ item.name }}</ion-label>
+            <ion-checkbox #checkbox
+                color="light"
+                [checked]="item.state === 'DONE' ? true : false"
+                (ionChange)="changeListItemState(item, checkbox.checked)">
+            </ion-checkbox>
         </ion-item>
         <ion-item *ngIf="listData.list_items <= 0">
             <ion-note item-start>

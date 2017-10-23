@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiProvider, ApiProviderMock, ApiMockData } from './../../api';
 import { UserProvider, UserProviderMock } from './../user';
 import { ListsProvider } from './lists';
-import { ITaskList, IListItem } from './lists.model';
+import { ITaskList, IListItem, ListItemState } from './lists.model';
 
 describe('List Provider', () => {
 
@@ -76,6 +76,29 @@ describe('List Provider', () => {
                 lists.addListItem(newListItemName, ApiMockData.lists[0]).then(() => {
                     lists.getUserLists().first().subscribe(userLists => {
                         expect(userLists[0].list_items.pop()).toEqual(newListItem);
+                    });
+                });
+            });
+        })
+    ));
+
+    it('should set list item state', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const returnState: ListItemState = 'UNDONE';
+            const newListItem: IListItem = {
+                id: 1,
+                name: 'List item',
+                state: returnState
+            } as IListItem;
+
+            spyOn(api, 'createListItem').and.returnValue(Observable.of(newListItem));
+
+            lists.initialize().then(() => {
+                lists.changeListItemState(newListItem, returnState).then(() => {
+                    lists.getUserLists().first().subscribe(userLists => {
+                        expect(
+                            userLists[0].list_items.find(item => item.id === newListItem.id).state
+                        ).toEqual(returnState);
                     });
                 });
             });

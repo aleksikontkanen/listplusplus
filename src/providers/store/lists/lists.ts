@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiProvider } from './../../api';
 import { UserProvider } from './../user';
 import { IStore } from './../store.model';
-import { ITaskList } from './lists.model'; /* tslint:disable-line */
+import { ITaskList, IListItem, ListItemState } from './lists.model'; /* tslint:disable-line */
 
 @Injectable()
 export class ListsProvider implements IStore {
@@ -41,6 +41,26 @@ export class ListsProvider implements IStore {
                 try {
                     lists.find(list => list.id === taskList.id).list_items.push(addedItem);
                     this.lists.next(lists);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        });
+    }
+
+    public async changeListItemState(listItem: IListItem, state: ListItemState): Promise<void> {
+        await this.api.changeListItemState(listItem, state).subscribe(modifiedItem => {
+            this.lists.first().subscribe(lists => {
+                try {
+                    lists.forEach(list => {
+                        list.list_items.forEach(item => {
+                            if (item.id === listItem.id) {
+                                item.state = state;
+                            }
+                        });
+                    });
+                    this.lists.next(lists);
+
                 } catch (error) {
                     console.error(error);
                 }

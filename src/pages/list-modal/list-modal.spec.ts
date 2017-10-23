@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA, Injectable } from '@angular/core';
 import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
 import { NavParams, ViewController, ModalController } from 'ionic-angular';
 import { ListModal } from './list-modal';
+import { StoreProvider, StoreProviderMock } from './../../providers/store';
 
 @Injectable()
 class NavParamsMock {
@@ -28,6 +29,7 @@ describe('ListModal', () => {
                 ListModal
             ],
             providers: [
+                { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: NavParams, useClass: NavParamsMock },
                 { provide: ViewController, useClass: ViewControllerMock },
                 { provide: ModalController, useValue: null }
