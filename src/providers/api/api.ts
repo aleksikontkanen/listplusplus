@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Response, Headers, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs';
-import { IUser, ITaskList, IListItem } from './../store'; /* tslint:disable-line */
+import { IUser, ITaskList, IListItem, ListItemState } from './../store'; /* tslint:disable-line */
 
 import * as ApiConfig from './../../api.config.local';
 
@@ -92,6 +92,19 @@ export class ApiProvider {
         };
 
         return this.createHttpRequest(ApiConfig.endpoints.listItems, options)
+            .map(response => response.json());
+    }
+
+    public changeListItemState(listItem: IListItem, state: ListItemState): Observable<IListItem> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Patch,
+            body: {
+                "state": state
+            }
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.listItems + listItem.id + '/', options)
             .map(response => response.json());
     }
 

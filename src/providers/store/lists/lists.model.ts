@@ -7,10 +7,12 @@ export interface ITaskList {
     readonly date_modified: string
 }
 
+export type ListItemState = 'DONE' | 'UNDONE';
+
 export interface IListItem {
     id: number,
     name: string,
-    state: 'DONE' | 'UNDONE',
+    state: ListItemState,
     readonly date_created: string,
     readonly date_modified: string
 }
