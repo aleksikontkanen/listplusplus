@@ -36,4 +36,9 @@ export class ListModal implements OnInit {
         const state: ListItemState = checked ? 'DONE' : 'UNDONE';
         this.store.lists.changeListItemState(listItem, state);
     }
+
+    public deleteListItem(listItem: IListItem): void {
+        this.store.lists.deleteListItem(listItem);
+    }
+
 }

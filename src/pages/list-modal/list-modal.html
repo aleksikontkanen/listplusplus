@@ -22,14 +22,22 @@
             <p>{{ listData.date_created }}</p>
         </ion-item>
 
-        <ion-item *ngFor="let item of listData.list_items">
-            <ion-label>{{ item.name }}</ion-label>
-            <ion-checkbox #checkbox
-                color="light"
-                [checked]="item.state === 'DONE' ? true : false"
-                (ionChange)="changeListItemState(item, checkbox.checked)">
-            </ion-checkbox>
-        </ion-item>
+        <ion-item-sliding *ngFor="let item of listData.list_items">
+            <ion-item>
+                <ion-label>{{ item.name }}</ion-label>
+                <ion-checkbox #checkbox
+                    color="light"
+                    [checked]="item.state === 'DONE' ? true : false"
+                    (ionChange)="changeListItemState(item, checkbox.checked)">
+                </ion-checkbox>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteListItem(item)">
+                    <ion-icon name="trash"></ion-icon>
+                    Delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
         <ion-item *ngIf="listData.list_items <= 0">
             <ion-note item-start>
             Wow, such empty

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiMockData } from './../../api';
 import { IStore } from './../store.model';
-import { ITaskList } from './lists.model'; /* tslint:disable-line */
+import { ITaskList, IListItem, ListItemState } from './lists.model'; /* tslint:disable-line */
 
 @Injectable()
 export class ListsProviderMock implements IStore {
@@ -24,5 +24,14 @@ export class ListsProviderMock implements IStore {
     public addListItem(): Promise<void> {
         return Promise.resolve();
     }
+
+    public async deleteListItem(listItem: IListItem): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public async changeListItemState(listItem: IListItem, state: ListItemState): Promise<void> {
+        return Promise.resolve();
+    }
+
 
 }
