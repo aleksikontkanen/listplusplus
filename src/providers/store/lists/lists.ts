@@ -48,6 +48,33 @@ export class ListsProvider implements IStore {
         });
     }
 
+    public async deleteListItem(listItem: IListItem): Promise<void> {
+        await this.api.deleteListItem(listItem).subscribe(response => {
+            this.lists.first().subscribe(lists => {
+                let itemFound: boolean = false;
+                try {
+                    lists.forEach((list, i) => {
+                        list.list_items.forEach((item, j) => {
+                            if (item.id === listItem.id) {
+                                lists[i].list_items.splice(j, 1);
+                                itemFound = true;
+                            }
+                        });
+                    });
+
+                    if (itemFound === false) {
+                        throw 'Item not found';
+                    }
+
+                    this.lists.next(lists);
+
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        });
+    }
+
     public async changeListItemState(listItem: IListItem, state: ListItemState): Promise<void> {
         await this.api.changeListItemState(listItem, state).subscribe(modifiedItem => {
             this.lists.first().subscribe(lists => {

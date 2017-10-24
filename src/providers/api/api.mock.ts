@@ -69,6 +69,10 @@ export class ApiProviderMock {
         return Observable.of(ApiMockData.lists[0].list_items[0]);
     }
 
+    public deleteListItem(listItem: IListItem): Observable<Response> {
+        return Observable.of(null);
+    }
+
     public changeListItemState(listItem: IListItem, state: ListItemState): Observable<IListItem> {
         return Observable.of(ApiMockData.lists[0].list_items[0]);
     }

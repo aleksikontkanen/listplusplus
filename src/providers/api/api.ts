@@ -95,6 +95,15 @@ export class ApiProvider {
             .map(response => response.json());
     }
 
+    public deleteListItem(listItem: IListItem): Observable<Response> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Delete,
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.listItems + listItem.id + '/', options);
+    }
+
     public changeListItemState(listItem: IListItem, state: ListItemState): Observable<IListItem> {
 
         const options: RequestOptionsArgs = {

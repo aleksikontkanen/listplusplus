@@ -82,11 +82,30 @@ describe('List Provider', () => {
         })
     ));
 
+    it('should delete list item', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const listItem: IListItem = {
+                id: 1,
+                name: 'List item'
+            } as IListItem;
+
+            lists.initialize().then(() => {
+                lists.deleteListItem(listItem).then(() => {
+                    lists.getUserLists().first().subscribe(userLists => {
+                        expect(
+                            userLists[0].list_items.find(item => item.id === listItem.id)
+                        ).toEqual(undefined);
+                    });
+                });
+            });
+        })
+    ));
+
     it('should set list item state', async(inject(
         [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
             const returnState: ListItemState = 'UNDONE';
             const newListItem: IListItem = {
-                id: 1,
+                id: 2,
                 name: 'List item',
                 state: returnState
             } as IListItem;

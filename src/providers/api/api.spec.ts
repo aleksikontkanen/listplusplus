@@ -1,10 +1,10 @@
 import { async, TestBed, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
-import { Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { ApiProvider } from './api';
 import { ApiMockData } from './api.mock';
-import { ITaskList } from './../store'; /* tslint:disable-line */
+import { ITaskList, IListItem, ListItemState } from './../store'; /* tslint:disable-line */
 
 const createResponse = (body: Object): Response => {
     return new Response(
@@ -43,6 +43,7 @@ describe('Api Provider', () => {
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
                 connection.mockRespond(createResponse(ApiMockData.user));
+                expect(connection.request.method).toBe(RequestMethod.Get, 'Request method should be GET');
             });
 
             api.getUserInfo().subscribe(userInfo => {
@@ -55,6 +56,7 @@ describe('Api Provider', () => {
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
                 connection.mockRespond(createResponse(ApiMockData.lists));
+                expect(connection.request.method).toBe(RequestMethod.Get, 'Request method should be GET');
             });
 
             api.getUserLists(ApiMockData.user.id).subscribe(lists => {
@@ -67,6 +69,7 @@ describe('Api Provider', () => {
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
                 connection.mockRespond(createResponse(ApiMockData.lists[0].list_items));
+                expect(connection.request.method).toBe(RequestMethod.Get, 'Request method should be GET');
             });
 
             api.getListItems(ApiMockData.user.id).subscribe(listItems => {
@@ -85,11 +88,69 @@ describe('Api Provider', () => {
 
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
                 connection.mockRespond(createResponse(newList));
+                expect(connection.request.method).toBe(RequestMethod.Post, 'Request method should be POST');
             });
 
 
             api.createList(newName).subscribe(list => {
-                expect(list.name).toEqual(newName);
+                expect(list).toEqual(newList);
+            })
+        })
+    ));
+
+    it('should create post request on createListItem call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            const newListItemName: string = 'New list item';
+            const newListItem = {
+                name: newListItemName
+            } as IListItem;
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse(newListItem));
+                expect(connection.request.method).toBe(RequestMethod.Post, 'Request method should be POST');
+            });
+
+            api.createListItem(newListItemName, ApiMockData.lists[0]).subscribe(listItem => {
+                expect(listItem).toEqual(newListItem);
+            })
+        })
+    ));
+
+    it('should create delete request for deleteListItem call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            const listItem = {
+                id: 1,
+                name: 'List item'
+            } as IListItem;
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(new Response(new ResponseOptions({
+                    status: 204,
+                    statusText: 'No content'
+                })));
+                expect(connection.request.method).toBe(RequestMethod.Delete, 'Request method should be DELETE');
+            });
+
+            api.deleteListItem(listItem).subscribe(response => {
+                expect(response.status).toEqual(204, 'Response status should be 204 No content');
+            })
+        })
+    ));
+
+    it('should create patch request for changeListItemState call', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            const newListItemName: string = 'New list item';
+            const newListItem = {
+                name: newListItemName
+            } as IListItem;
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse(newListItem));
+                expect(connection.request.method).toBe(RequestMethod.Patch, 'Request method should be PATCH');
+            });
+
+            api.changeListItemState(newListItem, 'DONE').subscribe(listItem => {
+                expect(listItem).toEqual(newListItem);
             })
         })
     ));
