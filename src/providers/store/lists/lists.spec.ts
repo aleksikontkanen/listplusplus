@@ -62,6 +62,24 @@ describe('List Provider', () => {
         })
     ));
 
+    it('should delete list', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const list: ITaskList = {
+                id: 2
+            } as ITaskList;
+
+            lists.initialize().then(() => {
+                lists.deleteUserList(list).then(() => {
+                    lists.getUserLists().first().subscribe(userLists => {
+                        expect(
+                            userLists.find(userList => userList.id === list.id)
+                        ).toEqual(undefined);
+                    });
+                });
+            });
+        })
+    ));
+
     it('should add new list item to existing list', async(inject(
         [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
             const newListItemName: string = 'New list item';

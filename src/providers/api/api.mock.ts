@@ -7,6 +7,7 @@ export interface IApiMockData {
     lists: Array<ITaskList>
 };
 
+// Mock data should be converted in a class with set of factory functions for each model.
 export const ApiMockData: IApiMockData = {
     user: {
         id: 1,
@@ -31,6 +32,29 @@ export const ApiMockData: IApiMockData = {
                 {
                     id: 2,
                     name: 'task2',
+                    state: 'DONE',
+                    date_created: new Date().toISOString(),
+                    date_modified: new Date().toISOString()
+                }
+            ],
+            date_created: new Date().toISOString(),
+            date_modified: new Date().toISOString()
+        },
+        {
+            id: 2,
+            name: 'list1',
+            users: [1],
+            list_items: [
+                {
+                    id: 1,
+                    name: 'task3',
+                    state: 'UNDONE',
+                    date_created: new Date().toISOString(),
+                    date_modified: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'task4',
                     state: 'DONE',
                     date_created: new Date().toISOString(),
                     date_modified: new Date().toISOString()
@@ -63,6 +87,10 @@ export class ApiProviderMock {
 
     public createList(listName: string): Observable<ITaskList> {
         return Observable.of(ApiMockData.lists[0]);
+    }
+
+    public deleteList(list: ITaskList): Observable<Response> {
+        return Observable.of(null);
     }
 
     public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {

@@ -17,11 +17,15 @@ export class ListsProviderMock implements IStore {
         return Observable.of(ApiMockData.lists);
     }
 
-    public addUserList(): Promise<void> {
+    public async addUserList(): Promise<void> {
         return Promise.resolve();
     }
 
-    public addListItem(): Promise<void> {
+    public async deleteUserList(listToDelete: ITaskList): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public async addListItem(): Promise<void> {
         return Promise.resolve();
     }
 

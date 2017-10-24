@@ -37,4 +37,8 @@ export class RootPage {
         const modal = this.modalController.create(AddListModal);
         modal.present();
     }
+
+    public deleteList(listToDelete: ITaskList): void {
+        this.store.lists.deleteUserList(listToDelete);
+    }
 }
