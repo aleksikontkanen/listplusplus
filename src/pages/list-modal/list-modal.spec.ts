@@ -92,7 +92,7 @@ describe('ListModal', () => {
         component.changeListItemState(undefined, false);
     })));
 
-    it('should call for list deletion on deleteListItem call', async(inject([StoreProvider], (store: StoreProviderMock) => {
+    it('should call for list item deletion on deleteListItem call', async(inject([StoreProvider], (store: StoreProviderMock) => {
         const storeSpy = spyOn(store.lists, 'deleteListItem').and.callThrough();
 
         const listItem: IListItem = {

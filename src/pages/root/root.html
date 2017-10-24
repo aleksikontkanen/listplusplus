@@ -7,12 +7,21 @@
 <ion-content>
     <ion-list *ngIf="userLists">
         <ion-list-header>
-            Lists
+        Lists
         </ion-list-header>
-        <a ion-item *ngFor="let userList of userLists;" (click)="openListModal(userList)">
-            <ion-icon name="list" item-start></ion-icon>
-            {{ userList.name }}
-        </a>
+
+        <ion-item-sliding *ngFor="let userList of userLists;">
+            <a ion-item (click)="openListModal(userList)">
+                <ion-icon name="list" item-start></ion-icon>
+                {{ userList.name }}
+            </a>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteList(userList)">
+                    <ion-icon name="trash"></ion-icon>
+                    Delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
     </ion-list>
 
     <ion-fab right bottom>

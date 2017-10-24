@@ -81,6 +81,15 @@ export class ApiProvider {
             .map(response => response.json());
     }
 
+    public deleteList(list: ITaskList): Observable<Response> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Delete,
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.taskLists + list.id + '/', options);
+    }
+
     public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {
 
         const options: RequestOptionsArgs = {

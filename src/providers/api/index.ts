@@ -1,2 +1,2 @@
 export { ApiProvider } from './api';
-export { ApiProviderMock, ApiMockData } from './api.mock';
+export { ApiProviderMock, IApiMockData, ApiMockData } from './api.mock';

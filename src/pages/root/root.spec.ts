@@ -1,9 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
 import { ModalController } from 'ionic-angular';
 import { RootPage } from './root';
 
-import { StoreProvider, StoreProviderMock } from './../../providers/store';
+import { StoreProvider, StoreProviderMock, ITaskList } from './../../providers/store';
 import { ApiMockData } from './../../providers/api';
 
 describe('Rootpage', () => {
@@ -39,4 +39,18 @@ describe('Rootpage', () => {
         fixture.detectChanges();
         expect(component.userLists).toEqual(ApiMockData.lists);
     });
+
+    it('should call for list deletion on deleteList call', async(inject([StoreProvider], (store: StoreProviderMock) => {
+        const storeSpy = spyOn(store.lists, 'deleteUserList').and.callThrough();
+
+        const listToDelete: ITaskList = {
+            id: 1
+        } as ITaskList;
+
+        fixture.detectChanges();
+
+        component.deleteList(listToDelete);
+
+        expect(storeSpy.calls.count()).toBe(1);
+    })));
 });
