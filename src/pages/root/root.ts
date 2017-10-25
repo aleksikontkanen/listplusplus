@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { StoreProvider, ITaskList } from './../../providers/store';
-import { ModalController } from 'ionic-angular';
+import { StoreProvider, ITaskList, IUser } from './../../providers/store';
+import { ModalController, AlertController } from 'ionic-angular';
 import { ListModal } from './../list-modal/list-modal';
 import { AddListModal } from './../add-list-modal/add-list-modal';
 
@@ -11,21 +11,42 @@ import { AddListModal } from './../add-list-modal/add-list-modal';
 })
 export class RootPage {
 
+    public userInfo: IUser;
     public userLists: Array<ITaskList>;
+    public errorMessage: string;
 
     constructor(
         private store: StoreProvider,
-        private modalController: ModalController
+        private modalController: ModalController,
+        private alertController: AlertController
     ) { }
 
     public ngOnInit(): void {
-        this.store.lists.getUserLists().subscribe(fetchedUserLists => {
-            this.userLists = fetchedUserLists
+        this.store.user.getUserInfo().subscribe(fetchedUserInfo => {
+            this.userInfo = fetchedUserInfo;
 
         }, error => {
             // TODO: Create error handling and notifications
-
         });
+
+        this.store.lists.getUserLists().subscribe(fetchedUserLists => {
+            this.userLists = fetchedUserLists;
+
+        }, error => {
+            // TODO: Create error handling and notifications
+        });
+    }
+
+    public login(username: string, password: string): void {
+        if (username && password) {
+            this.store.user.login(username, password).catch(() => {
+                this.alertController.create({
+                    title: 'Login failed',
+                    subTitle: 'Your username or password is invalid',
+                    buttons: ['okay']
+                }).present();
+            });
+        }
     }
 
     public openListModal(listData: ITaskList): void {

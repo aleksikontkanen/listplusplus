@@ -4,7 +4,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="userInfo">
     <ion-list *ngIf="userLists">
         <ion-list-header>
         Lists
@@ -29,4 +29,23 @@
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
+</ion-content>
+
+<ion-content *ngIf="!userInfo">
+    <ion-list>
+        <ion-list-header>
+        Please login
+        </ion-list-header>
+        <ion-item>
+            <ion-label floating>Username</ion-label>
+            <ion-input type="text" #userName></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input type="password" #password></ion-input>
+        </ion-item>
+        <ion-item>
+            <button ion-button full (click)="login(userName.value, password.value)">login</button>
+        </ion-item>
+    </ion-list>
 </ion-content>

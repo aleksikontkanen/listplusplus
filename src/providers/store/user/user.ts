@@ -15,14 +15,32 @@ export class UserProvider implements IStore {
     ) { }
 
     public async initialize(): Promise<void> {
-        await this.api.getUserInfo().subscribe(userInfo => {
-            this.userInfo.next(userInfo);
-
-        }, error => this.userInfo.error(error));
+        // Nothing to initialize
     }
 
     public getUserInfo(): Observable<IUser> {
         return this.userInfo.asObservable();
+    }
+
+    public login(username: string, password: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.api.authenticate(username, password).subscribe(() => {
+                this.api.getUserInfo().subscribe(userInfo => {
+                    this.userInfo.next(userInfo);
+                    resolve();
+                }, error => {
+                    this.userInfo.error(error);
+                    resolve();
+                });
+            }, error => {
+                reject();
+            });
+        });
+    }
+
+    public logout(): void {
+        this.api.resetAuthentication();
+        this.userInfo.next(undefined);
     }
 
 }
