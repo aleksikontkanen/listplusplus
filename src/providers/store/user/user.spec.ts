@@ -28,4 +28,26 @@ describe('User Provider', () => {
         })
     ));
 
+    it('should call authenticate and get user info', async(inject(
+        [UserProvider], (user: UserProvider) => {
+            const username: string = 'user';
+            const password: string = 'password';
+
+            user.login(username, password).then(() => {
+                user.getUserInfo().subscribe(userInfo => {
+                    expect(userInfo).toEqual(ApiMockData.user);
+                });
+            });
+        })
+    ));
+
+    it('should call logout on api and reset user info', async(inject(
+        [UserProvider], (user: UserProvider) => {
+            user.logout();
+            user.getUserInfo().subscribe(userInfo => {
+                expect(userInfo).toEqual(undefined);
+            });
+        })
+    ));
+
 });

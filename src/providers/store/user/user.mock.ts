@@ -17,4 +17,12 @@ export class UserProviderMock implements IStore {
         return Observable.of(ApiMockData.user);
     }
 
+    public login(username: string, password: string): Promise<void> {
+        return Promise.resolve();
+    }
+
+    public logout(): void {
+        // Stub
+    }
+
 }

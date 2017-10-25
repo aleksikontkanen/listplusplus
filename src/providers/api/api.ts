@@ -8,32 +8,21 @@ import * as ApiConfig from './../../api.config.local';
 @Injectable()
 export class ApiProvider {
 
-    private authenticationToken: string;
+    private _authenticationToken: string;
+    get authenticationToken() { return this._authenticationToken; }
 
     constructor(
         private http: Http
-    ) {
-        // Authenticate automatically for now
-        this.getAuthenticationToken(
-            ApiConfig.credentials.username,
-            ApiConfig.credentials.password)
-            .subscribe(authenticationInfo => {
-                this.authenticationToken = authenticationInfo.token;
-            });
+    ) { }
+
+    public authenticate(username: string, password: string): Observable<{ token: string }> {
+        return this.getAuthenticationToken(username, password).do(authenticationInfo => {
+            this._authenticationToken = authenticationInfo.token;
+        });
     }
 
-    public getAuthenticationToken(username: string, password: string): Observable<{ token: string }> {
-        const options: RequestOptionsArgs = {
-            method: RequestMethod.Post,
-            body: {
-                username,
-                password
-            }
-        }
-
-        return this.createHttpRequest(ApiConfig.endpoints.authentication, options)
-            .map(response => response.json())
-
+    public resetAuthentication(): void {
+        this._authenticationToken = undefined;
     }
 
     public getUserInfo(): Observable<IUser> {
@@ -124,6 +113,24 @@ export class ApiProvider {
 
         return this.createHttpRequest(ApiConfig.endpoints.listItems + listItem.id + '/', options)
             .map(response => response.json());
+    }
+
+
+
+    /* Internal */
+
+    private getAuthenticationToken(username: string, password: string): Observable<{ token: string }> {
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Post,
+            body: {
+                username,
+                password
+            }
+        }
+
+        return this.createHttpRequest(ApiConfig.endpoints.authentication, options)
+            .map(response => response.json())
+
     }
 
     private createHttpRequest(url: string, options: RequestOptionsArgs = {}): Observable<Response> {

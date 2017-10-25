@@ -69,8 +69,12 @@ export const ApiMockData: IApiMockData = {
 @Injectable()
 export class ApiProviderMock {
 
-    public getAuthenticationToken(username: string, password: string): Observable<{ token: string }> {
+    public authenticate(username: string, password: string): Observable<{ token: string }> {
         return Observable.of({ token: '1234abcd' });
+    }
+
+    public resetAuthentication(): void {
+
     }
 
     public getUserInfo(): Observable<IUser> {

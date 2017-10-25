@@ -39,6 +39,40 @@ describe('Api Provider', () => {
         })
     ));
 
+    it('should authenticate', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            const token: string = 'fa84cc3a09bfd2166ac1c12f';
+            const username: string = 'user';
+            const password: string = 'password';
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse({ token }));
+                expect(connection.request.method).toBe(RequestMethod.Post, 'Request method should be POST');
+            });
+
+            api.authenticate(username, password).subscribe(authenticationInfo => {
+                expect(api.authenticationToken).toEqual(token);
+            })
+        })
+    ));
+
+    it('should logout', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+            const token: string = 'fa84cc3a09bfd2166ac1c12f';
+            const username: string = 'user';
+            const password: string = 'password';
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(createResponse({ token }));
+            });
+
+            api.authenticate(username, password).subscribe(authenticationInfo => {
+                api.resetAuthentication();
+                expect(api.authenticationToken).toEqual(undefined);
+            })
+        })
+    ));
+
     it('should create get request on getUserInfo call', async(inject(
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
             mockbackEnd.connections.subscribe((connection: MockConnection) => {
