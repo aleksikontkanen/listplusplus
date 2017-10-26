@@ -1,7 +1,11 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
+
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { SecureStorage } from '@ionic-native/secure-storage';
 
 import { MyApp } from './app.component';
 
@@ -10,8 +14,6 @@ import { ListModal } from '../pages/list-modal/list-modal';
 import { AddListModal } from '../pages/add-list-modal/add-list-modal';
 import { AddListItemModal } from '../pages/add-list-item-modal/add-list-item-modal';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { ApiProvider } from '../providers/api';
 import { StoreProvider, UserProvider, ListsProvider } from '../providers/store';
 
@@ -40,6 +42,7 @@ import { StoreProvider, UserProvider, ListsProvider } from '../providers/store';
     providers: [
         StatusBar,
         SplashScreen,
+        SecureStorage,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         ApiProvider,
         StoreProvider,
