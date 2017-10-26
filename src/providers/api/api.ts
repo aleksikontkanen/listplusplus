@@ -10,6 +10,7 @@ export class ApiProvider {
 
     private _authenticationToken: string;
     get authenticationToken() { return this._authenticationToken; }
+    set authenticationToken(token: string) { this._authenticationToken = token; }
 
     constructor(
         private http: Http
