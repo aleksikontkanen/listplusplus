@@ -79,6 +79,19 @@ export class ApiProvider {
         return this.createHttpRequest(ApiConfig.endpoints.taskLists + list.id + '/', options);
     }
 
+    public shareList(listToShare: ITaskList, shareToUserEmail: string): Observable<Response> {
+
+        const options: RequestOptionsArgs = {
+            method: RequestMethod.Post,
+            body: {
+                "share_to_email": shareToUserEmail,
+                "tasklist_id": listToShare.id
+            }
+        };
+
+        return this.createHttpRequest(ApiConfig.endpoints.taskListsShare, options);
+    }
+
     public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {
 
         const options: RequestOptionsArgs = {

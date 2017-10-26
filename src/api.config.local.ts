@@ -2,6 +2,7 @@ export interface IApi {
     authentication: string,
     users: string,
     taskLists: string,
+    taskListsShare: string,
     listItems: string
 }
 
@@ -21,5 +22,6 @@ export const endpoints: IApi = {
     authentication: baseUrl + 'authenticate/',
     users: baseUrl + 'users/',
     taskLists: baseUrl + 'tasklists/',
+    taskListsShare: baseUrl + 'tasklists_share/',
     listItems: baseUrl + 'listitems/'
 };

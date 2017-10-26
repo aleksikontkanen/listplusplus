@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { StoreProvider, ITaskList, IUser } from './../../providers/store';
-import { ModalController, AlertController } from 'ionic-angular';
+import { ModalController, AlertController, ToastController } from 'ionic-angular';
 import { ListModal } from './../list-modal/list-modal';
 import { AddListModal } from './../add-list-modal/add-list-modal';
 
@@ -18,7 +18,8 @@ export class RootPage {
     constructor(
         private store: StoreProvider,
         private modalController: ModalController,
-        private alertController: AlertController
+        private alertController: AlertController,
+        private toastController: ToastController
     ) { }
 
     public ngOnInit(): void {
@@ -61,5 +62,51 @@ export class RootPage {
 
     public deleteList(listToDelete: ITaskList): void {
         this.store.lists.deleteUserList(listToDelete);
+    }
+
+    public shareList(listToShare: ITaskList): void {
+        this.alertController.create({
+            title: 'Share the list',
+            message: 'Please provide email address of the person you want to share this list.',
+            inputs: [
+                {
+                    name: 'shareToUserEmail',
+                    placeholder: 'User email'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: data => { }
+                },
+                {
+                    text: 'Share',
+                    handler: data => {
+                        if (this.validateEmail(data.shareToUserEmail)) {
+                            this.store.lists.shareUserList(listToShare, data.shareToUserEmail).then(() => {
+                                this.toastController.create({
+                                    message: 'Request sent!',
+                                    duration: 3000,
+                                    position: 'bottom'
+                                }).present();
+                            }).catch(() => {
+                                this.toastController.create({
+                                    message: 'Something went wrong. Request not sent.',
+                                    duration: 3000,
+                                    position: 'bottom'
+                                }).present();
+                            });
+                        }
+                    }
+                }
+            ]
+        }).present();
+    }
+
+    /* Internal */
+
+    private validateEmail(email: string): boolean {
+        return /\S+@\S+\.\S+/.test(email);
     }
 }

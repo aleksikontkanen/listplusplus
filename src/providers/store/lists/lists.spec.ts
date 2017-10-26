@@ -80,6 +80,23 @@ describe('List Provider', () => {
         })
     ));
 
+    it('should share list', async(inject(
+        [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
+            const email: string = 'test@test.tld';
+            const list: ITaskList = {
+                id: 1
+            } as ITaskList;
+
+            const apiSpy = spyOn(api, 'shareList').and.callThrough();
+
+            lists.initialize().then(() => {
+                lists.shareUserList(list, email).then(() => {
+                    expect(apiSpy.calls.count()).toBe(1);
+                });
+            });
+        })
+    ));
+
     it('should add new list item to existing list', async(inject(
         [ListsProvider, ApiProvider], (lists: ListsProvider, api: ApiProviderMock) => {
             const newListItemName: string = 'New list item';

@@ -1,10 +1,22 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed, ComponentFixture, inject } from '@angular/core/testing';
-import { ModalController, AlertController } from 'ionic-angular';
+import { ModalController, AlertController, ToastController } from 'ionic-angular';
 import { RootPage } from './root';
 
 import { StoreProvider, StoreProviderMock, ITaskList } from './../../providers/store';
 import { ApiMockData } from './../../providers/api';
+
+class AlertControllerMock {
+    public create(data: Object): AlertMock {
+        return new AlertMock();
+    }
+}
+
+class AlertMock {
+    public present(): void {
+        // stub
+    }
+}
 
 describe('Rootpage', () => {
 
@@ -22,7 +34,8 @@ describe('Rootpage', () => {
             providers: [
                 { provide: StoreProvider, useClass: StoreProviderMock },
                 { provide: ModalController, useValue: null },
-                { provide: AlertController, useValue: null }
+                { provide: AlertController, useClass: AlertControllerMock },
+                { provide: ToastController, useValue: null }
             ]
         }).compileComponents();
 
@@ -53,5 +66,21 @@ describe('Rootpage', () => {
         component.deleteList(listToDelete);
 
         expect(storeSpy.calls.count()).toBe(1);
+    })));
+
+    it('should create alert dialog when sharing a list', async(inject([StoreProvider], (store: StoreProviderMock) => {
+        const alertControllerSpy = spyOn(AlertControllerMock.prototype, 'create').and.callThrough();
+        const alertSpy = spyOn(AlertMock.prototype, 'present').and.callThrough();
+
+        const listToShare: ITaskList = {
+            id: 1
+        } as ITaskList;
+
+        fixture.detectChanges();
+
+        component.shareList(listToShare);
+
+        expect(alertControllerSpy.calls.count()).toBe(1);
+        expect(alertSpy.calls.count()).toBe(1);
     })));
 });

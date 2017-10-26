@@ -25,6 +25,10 @@ export class ListsProviderMock implements IStore {
         return Promise.resolve();
     }
 
+    public async shareUserList(listToShare: ITaskList, shareToUserEmail: string): Promise<void> {
+        return Promise.resolve();
+    }
+
     public async addListItem(): Promise<void> {
         return Promise.resolve();
     }

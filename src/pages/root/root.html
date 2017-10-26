@@ -1,20 +1,26 @@
 <ion-header>
-    <ion-navbar>
+    <ion-toolbar>
         <ion-title>List++</ion-title>
-    </ion-navbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="userInfo">
-    <ion-list *ngIf="userLists">
+    <ion-list *ngIf="userLists && userLists.length > 0">
         <ion-list-header>
         Lists
         </ion-list-header>
 
-        <ion-item-sliding *ngFor="let userList of userLists;">
+        <ion-item-sliding *ngFor="let userList of userLists;" #itemSlide>
             <a ion-item (click)="openListModal(userList)">
                 <ion-icon name="list" item-start></ion-icon>
                 {{ userList.name }}
             </a>
+            <ion-item-options side="left">
+                <button ion-button color="secondary" (click)="itemSlide.close(); shareList(userList, 'share@test.com')">
+                    <ion-icon name="share"></ion-icon>
+                    Share
+                </button>
+            </ion-item-options>
             <ion-item-options side="right">
                 <button ion-button color="danger" (click)="deleteList(userList)">
                     <ion-icon name="trash"></ion-icon>
@@ -22,6 +28,14 @@
                 </button>
             </ion-item-options>
         </ion-item-sliding>
+    </ion-list>
+
+    <ion-list *ngIf="!userLists || userLists.length <= 0">
+        <ion-item>
+            <ion-note item-start>
+            Wow, such empty
+            </ion-note>
+        </ion-item>
     </ion-list>
 
     <ion-fab right bottom>

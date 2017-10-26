@@ -154,6 +154,29 @@ describe('Api Provider', () => {
         })
     ));
 
+    it('should share a list', async(inject(
+        [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
+
+            const email: string = 'test@test.tld';
+            const list = {
+                id: 1
+            } as ITaskList;
+
+            mockbackEnd.connections.subscribe((connection: MockConnection) => {
+                connection.mockRespond(new Response(new ResponseOptions({
+                    status: 204,
+                    statusText: 'No content'
+                })));
+                expect(connection.request.method).toBe(RequestMethod.Post, 'Request method should be POST');
+            });
+
+
+            api.shareList(list, email).subscribe(response => {
+                expect(response.status).toEqual(204, 'Response status should be 204 No content');
+            })
+        })
+    ));
+
     it('should create post request on createListItem call', async(inject(
         [ApiProvider, MockBackend], (api: ApiProvider, mockbackEnd: MockBackend) => {
             const newListItemName: string = 'New list item';
