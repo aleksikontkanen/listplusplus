@@ -97,6 +97,10 @@ export class ApiProviderMock {
         return Observable.of(null);
     }
 
+    public shareList(listToShare: ITaskList, shareToUserEmail: string): Observable<Response> {
+        return Observable.of(null);
+    }
+
     public createListItem(itemName: string, taskList: ITaskList): Observable<IListItem> {
         return Observable.of(ApiMockData.lists[0].list_items[0]);
     }

@@ -35,6 +35,10 @@ export class ListsProvider implements IStore {
         });
     }
 
+    public async shareUserList(listToShare: ITaskList, shareToUserEmail: string): Promise<void> {
+        await this.api.shareList(listToShare, shareToUserEmail).subscribe();
+    }
+
     public async deleteUserList(list: ITaskList): Promise<void> {
         await this.api.deleteList(list).subscribe(response => {
             this.lists.first().subscribe(userLists => {
